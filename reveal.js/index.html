@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+
+		<title>R & D Workshop - OpenSSL in Tomcat</title>
+
+		<meta name="description" content="A framework for easily creating beautiful presentations using HTML">
+		<meta name="author" content="Hakim El Hattab">
+
+		<meta name="apple-mobile-web-app-capable" content="yes" />
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, minimal-ui">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/white.css" id="theme">
+        <link rel="stylesheet" href="css/index.css">
+
+		<!-- Code syntax highlighting -->
+		<link rel="stylesheet" href="lib/css/zenburn.css">
+
+		<!-- Printing and PDF exports -->
+		<script>
+			var link = document.createElement( 'link' );
+			link.rel = 'stylesheet';
+			link.type = 'text/css';
+			link.href = window.location.search.match( /print-pdf/gi ) ? 'css/print/pdf.css' : 'css/print/paper.css';
+			document.getElementsByTagName( 'head' )[0].appendChild( link );
+		</script>
+
+		<!--[if lt IE 9]>
+		<script src="lib/js/html5shiv.js"></script>
+		<![endif]-->
+	</head>
+
+	<body>
+
+		<div class="reveal">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+                <section>
+                    <ul class="inline-display">
+                        <li><img src="img/tomcat.png"></li>
+                        <li><img width="340px" src="img/openssl-logo.png"></li>
+                    </ul>
+                    <h2>OpenSSL for Tomcat</h2>
+                    <p>Using the OpenSSL library for Tomcat encryption</p>
+                    <p style="font-size: 25px">R & D Workshop - BeNeFri</p>
+                    <p id="author">Numa de Montmollin & John Hannay</p>
+                </section>
+                <section class="content">
+                    <h2>Summary</h2>
+                    <ul>
+                        <li>What is Tomcat?</li>
+                        <li>Tomcat native</li>
+                        <li>SSL/TLS protocol</li>
+                        <li>OpenSSL</li>
+                        <li>SSL encryption with Tomcat</li>
+                        <li>Our project</li>
+                        <li>Motivations</li>
+                        <li>Related works</li>
+                        <li>Conclusion</li>
+                        <li>Questions</li>
+                    </ul>
+                </section>
+                <section class="content">
+                    <h2>What is Tomcat?</h2>
+                    <p>An open-source implementation of Java EE  specifications. It implements:</p>
+                    <ul>
+                        <li>Java Servlet container</li>
+                        <li>Java Server Pages</li>
+                        <li>HTTP connector</li>
+                        <li>Web server</li>
+                    </ul>
+                    <p>A lot of large-scale and mission critical Web servers are run under Tomcat. For example: WallMart.com, General Motors, The weather Chanel, etc</p>
+                </section>
+                <section class="content">
+                    <h2>Tomcat native</h2>
+                    <p>Optional components for use with Tomcat</p>
+                    <ul>
+                        <li>Increases performances and compatibility with the OS</li>
+                        <li>Gives access to random number generation</li>
+                        <li>Gives access to sockets and TLS/SSL for OpenSSL through Apache Portable Runtime (APR)</li>
+                    </ul>
+                </section>
+                <section class="content">
+                    <h2>SSL/TLS protocol (1)</h2>
+                    <ul>
+                        <li>Used for securing communication between a Web server and a client</li>
+                        <li>Uses public and private key encryption to exchange a symetric key</li>
+                        <li>Java provide is own SSL implementation named Java Secure Socket Extension (JSSE)</li>
+                    </ul>
+                </section>
+                <section>
+                    <h2>SSL/TLS protocol (2f)</h2>
+                    <img src="img/ssl.png">
+                </section>
+                <section class="content">
+                    <h2>OpenSSL</h2>
+                    <ul>
+                        <li>Open-source implementation of TSL/SSL protocol</li>
+                        <li>Core library written in C</li>
+                        <li>Compiles on most platforms (*nix OSs and Microsoft Windows)</li>
+                    </ul>
+                    
+                </section>
+                <!--<section class="content">
+                    <h2>Netty</h2>
+                    <p>Asynchronous and event-driven framework for Java networking applications</p>
+                    <ul>
+                        <li>Implements HTTP,</li>
+                    </ul>
+                </section>-->
+                <section class="content">
+                    <h2>SSL encryption with Tomcat</h2>
+                    <ul>
+                        <li>By default, uses Java Secure Socket Extension over NIO2 (Java API for intensive I/O operations)</li>
+                        <li>Another possibility is to use Tomcat native with the APR</li>
+                    </ul>
+                </section>
+                <section class="content">
+                    <h2>Our Project</h2>
+                    <p>Integrate OpennSSL into Tomcat without using APR</p>
+                    <p>This involves:</p>
+                    <ul>
+                        <li>Studying the code of Tomcat, Tomcat native and Tomcat native for Netty</li>
+                        <li>Implement a connection between NIO2 and OpenSSL without JSSE or Tomcat native</li>
+                        <li>Write a small test server using OpenSSL</li>
+                        <li>Run benchmarks to measure performance</li>
+                    </ul>
+                </section>
+                <section class="content">
+                    <h2>Motivations</h2>
+                    <ul>
+                        <li>JSSE performs poorly</li>
+                        <li>APR has a lot C code which is hard to maintain and probably contains many bugs</li>
+                        <li>Tomcat Native for Netty contains to many dependencies and works only in Netty</li>
+                        <li>OpenSSL is well maintained, efficient and compiles on most platforms</li>
+                    </ul>
+                    <p>Using Tomcat directly with OpenSSL should perform better and be easier to maintain</p>
+                </section>
+                <section class="content">
+                    <h2>Related works</h2>
+                    <ul>
+                        <li>Netty already uses OpenSSL direclty for the TLS/SSL protocol</li>
+                        <li>Many similar open-source projects were abandoned due to lack of interest</li>
+                    </ul>
+                </section>
+                <section class="content">
+                    <h2>Conclusion</h2>
+                    <p>Our main challenge will be to understand the large projects (Tomcat, OpenSSL, Tomcat native, Tomcat native for Netty) and to extract and adapt the required code to solve our problem.</p>
+                </section>
+                <section>
+                    <h2>Questions?</h2>
+                    <img src="img/dupont.png" height="600">
+                </section>
+			</div>
+     
+
+		</div>
+
+		<script src="lib/js/head.min.js"></script>
+		<script src="js/reveal.js"></script>
+
+		<script>
+
+			// Full list of configuration options available at:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls: true,
+				progress: true,
+				history: true,
+				center: true,
+                slideNumber: true,
+				transition: 'slide', // none/fade/slide/convex/concave/zoom
+
+				// Optional reveal.js plugins
+				dependencies: [
+					{ src: 'lib/js/classList.js', condition: function() { return !document.body.classList; } },
+					{ src: 'plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+					{ src: 'plugin/highlight/highlight.js', async: true, condition: function() { return !!document.querySelector( 'pre code' ); }, callback: function() { hljs.initHighlightingOnLoad(); } },
+					{ src: 'plugin/zoom-js/zoom.js', async: true },
+					{ src: 'plugin/notes/notes.js', async: true }
+				]
+			});
+
+		</script>
+
+	</body>
+</html>

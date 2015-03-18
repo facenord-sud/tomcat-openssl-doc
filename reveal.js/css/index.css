@@ -1,0 +1,23 @@
+#author {
+    padding-top: 300px;
+    font-size: 25px;
+    
+}
+
+.content {
+    text-align: left;
+}
+
+.content h2 {
+    text-align: center;
+}
+
+
+.content ul {
+    padding-left: 50px;
+}
+
+.inline-display li{
+    list-style: none;
+    display: inline;
+}
