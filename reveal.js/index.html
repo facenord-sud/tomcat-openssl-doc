@@ -72,8 +72,6 @@
                     <ul>
                         <li>Java Servlet container</li>
                         <li>Java Server Pages</li>
-                        <li>HTTP connector</li>
-                        <li>Web server</li>
                     </ul>
                     <p>A lot of large-scale and mission critical Web servers are run under Tomcat. For example: WallMart.com, General Motors, The weather Chanel, etc</p>
                 </section>
@@ -82,8 +80,8 @@
                     <p>Optional components for use with Tomcat</p>
                     <ul>
                         <li>Increases performances and compatibility with the OS</li>
-                        <li>Gives access to random number generation</li>
-                        <li>Gives access to sockets and TLS/SSL for OpenSSL through Apache Portable Runtime (APR)</li>
+                        <li>Gives access to sockets through Apache Portable Runtime (APR)</li>
+			<li>Gives access to TLS/SSL for OpenSSL through APR</li>
                     </ul>
                 </section>
                 <section class="content">
@@ -95,7 +93,7 @@
                     </ul>
                 </section>
                 <section>
-                    <h2>SSL/TLS protocol (2f)</h2>
+                    <h2>SSL/TLS protocol (2)</h2>
                     <img src="img/ssl.png">
                 </section>
                 <section class="content">
@@ -123,7 +121,7 @@
                 </section>
                 <section class="content">
                     <h2>Our Project</h2>
-                    <p>Integrate OpennSSL into Tomcat without using APR</p>
+                    <p>Integrate OpenSSL into Tomcat without using APR</p>
                     <p>This involves:</p>
                     <ul>
                         <li>Studying the code of Tomcat, Tomcat native and Tomcat native for Netty</li>
