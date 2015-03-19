@@ -115,23 +115,27 @@
                 <section class="content">
                     <h2>SSL encryption with Tomcat</h2>
                     <ul>
-                        <li>By default, uses Java Secure Socket Extension over NIO2 (Java API for intensive I/O operations)</li>
+                        <li>By default, uses Java Secure Socket Extension over NIO (Java API for intensive I/O operations)</li>
                         <li>Another possibility is to use Tomcat native with the APR</li>
                     </ul>
                 </section>
                 <section class="content">
-                    <h2>Our Project</h2>
+                    <h2>Our Project (1)</h2>
                     <p>Integrate OpenSSL into Tomcat without using APR</p>
                     <p>This involves:</p>
                     <ul>
                         <li>Studying the code of Tomcat, Tomcat native and Tomcat native for Netty</li>
-                        <li>Implement a connection between NIO2 and OpenSSL without JSSE or Tomcat native</li>
+                        <li>Implement a connection between NIO2 and OpenSSL</li>
                         <li>Write a small test server using OpenSSL</li>
                         <li>Run benchmarks to measure performance</li>
                     </ul>
                 </section>
+                <section>
+                    <h2>Our Project (2)</h2>
+                    <img src="img/our-work.jpg" height="600" class="no-border">
+                </section>
                 <section class="content">
-                    <h2>Motivations</h2>
+                    <h2>Motivations (1)</h2>
                     <ul>
                         <li>JSSE performs poorly</li>
                         <li>APR has a lot C code which is hard to maintain and probably contains many bugs</li>
@@ -139,6 +143,10 @@
                         <li>OpenSSL is well maintained, efficient and compiles on most platforms</li>
                     </ul>
                     <p>Using Tomcat directly with OpenSSL should perform better and be easier to maintain</p>
+                </section>
+                <section>
+                    <h2>Motivations (2)</h2>
+                    <img src="img/perf.jpg">
                 </section>
                 <section class="content">
                     <h2>Related works</h2>
